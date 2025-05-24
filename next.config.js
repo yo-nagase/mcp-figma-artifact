@@ -8,9 +8,6 @@ const nextConfig = {
   },
   // Optimize for static export
   output: 'standalone',
-  experimental: {
-    appDir: false, // Using pages directory
-  },
 }
 
 module.exports = nextConfig 

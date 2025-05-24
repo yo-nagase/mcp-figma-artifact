@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import Head from 'next/head'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import '../styles/globals.css'
 
 export default function App({ Component, pageProps }) {
@@ -16,14 +18,10 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400&family=Roboto:wght@900&family=SF+Pro+Text:wght@600&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <Component {...pageProps} />
+      <Analytics />
+      <SpeedInsights />
     </>
   )
 } 

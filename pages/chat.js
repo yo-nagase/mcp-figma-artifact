@@ -3,34 +3,41 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import StatusBar from '../components/StatusBar'
-import ProfileHeader from '../components/ProfileHeader'
-import ActionButtons from '../components/ActionButtons'
-import Gallery from '../components/Gallery'
+import ChatHeader from '../components/ChatHeader'
+import ChatMessages from '../components/ChatMessages'
 import TabBar from '../components/TabBar'
-import Modal from '../components/Modal'
 import Notification from '../components/Notification'
 
-export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalImageIndex, setModalImageIndex] = useState(0)
-  const [activeTab, setActiveTab] = useState(0)
-  const [isFollowing, setIsFollowing] = useState(false)
+export default function Chat() {
+  const [activeTab, setActiveTab] = useState(3) // Chat tab is active
   const [notification, setNotification] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      text: "Really love your most recent photo. I've been trying to capture the same thing for a few months and would love some tips!",
+      sender: 'other',
+      avatar: '/images/chat-avatar-1.png',
+      timestamp: '10:30'
+    },
+    {
+      id: 2,
+      text: "A fast 50mm like f1.8 would help with the bokeh. I've been using primes as they tend to get a bit sharper images.",
+      sender: 'me',
+      timestamp: '10:32'
+    },
+    {
+      id: 3,
+      text: "Thank you! That was very helpful!",
+      sender: 'other',
+      avatar: '/images/chat-avatar-2.png',
+      timestamp: '10:35'
+    }
+  ])
 
   const router = useRouter()
   const statusBarRef = useRef(null)
   const tabBarRef = useRef(null)
   const lastScrollTop = useRef(0)
-
-  const galleryImages = [
-    '/images/gallery-1.png',
-    '/images/gallery-3.png',
-    '/images/gallery-6.png',
-    '/images/gallery-4.png',
-    '/images/gallery-5.png',
-    '/images/gallery-2.png'
-  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +74,7 @@ export default function Home() {
 
     switch (index) {
       case 0: // Home
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        router.push('/')
         break
       case 1: // Search
         showNotification('Search functionality would open here')
@@ -76,7 +83,7 @@ export default function Home() {
         showNotification('Camera/Upload functionality would open here')
         break
       case 3: // Chat
-        router.push('/chat')
+        // Already on chat page
         break
       case 4: // Profile
         showNotification('Profile settings would open here')
@@ -84,35 +91,9 @@ export default function Home() {
     }
   }
 
-  const handleFollowClick = () => {
-    setIsFollowing(!isFollowing)
-    showNotification(isFollowing ? 'Unfollowed Jane' : 'Now following Jane')
+  const handleBackClick = () => {
+    router.push('/')
     addHapticFeedback()
-  }
-
-  const handleMessageClick = () => {
-    showNotification('Message compose would open here')
-    addHapticFeedback()
-  }
-
-  const handleSeeMoreClick = () => {
-    setIsLoading(true)
-    showNotification('Loading more images...')
-    addHapticFeedback()
-
-    setTimeout(() => {
-      setIsLoading(false)
-      showNotification('More images loaded')
-    }, 2000)
-  }
-
-  const handleImageClick = (index) => {
-    setModalImageIndex(index)
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
   }
 
   const showNotification = (message) => {
@@ -129,8 +110,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Jane&apos;s Profile</title>
-        <meta name="description" content="Jane's profile page - A modern mobile profile interface" />
+        <title>Chat with James</title>
+        <meta name="description" content="Individual chat conversation" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -138,27 +119,9 @@ export default function Home() {
       <main>
         <StatusBar ref={statusBarRef} />
 
-        <div className="profile-container">
-          <ProfileHeader />
-
-          <ActionButtons
-            isFollowing={isFollowing}
-            onFollowClick={handleFollowClick}
-            onMessageClick={handleMessageClick}
-          />
-
-          <Gallery
-            images={galleryImages}
-            onImageClick={handleImageClick}
-          />
-
-          <button
-            className="btn btn-see-more"
-            onClick={handleSeeMoreClick}
-            disabled={isLoading}
-          >
-            {isLoading ? 'loading...' : 'see more'}
-          </button>
+        <div className="chat-container">
+          <ChatHeader onBackClick={handleBackClick} />
+          <ChatMessages messages={messages} />
         </div>
 
         <TabBar
@@ -166,14 +129,6 @@ export default function Home() {
           activeTab={activeTab}
           onTabClick={handleTabClick}
         />
-
-        {isModalOpen && (
-          <Modal
-            images={galleryImages}
-            currentIndex={modalImageIndex}
-            onClose={closeModal}
-          />
-        )}
 
         {notification && (
           <Notification message={notification} />

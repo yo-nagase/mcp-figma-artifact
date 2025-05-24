@@ -18,12 +18,15 @@ This page was built based on the Figma design: [Figma Basics - Profile Design](h
 - **Next.js optimization** - Image optimization and performance
 - **React Hooks** - Modern state management with useState and useEffect
 - **Component separation** - Clean component structure
+- **Multi-page support** - Profile and Chat pages with routing
 
 ### 🎯 Interactive Elements
 - **Tab Navigation** - 5 interactive tabs (Home, Search, Upload, Chat, Profile)
 - **Action Buttons** - Follow/Unfollow and Message functionality
 - **Gallery Interaction** - Clickable image gallery with modal view
 - **See More Button** - Simulated loading states
+- **Chat Interface** - Individual chat page with message history
+- **Page Navigation** - Seamless routing between profile and chat
 
 ### 🌟 Modern UX Features
 - **Haptic Feedback** - Visual and vibration feedback on interactions
@@ -81,7 +84,8 @@ yarn start
 ```
 ├── pages/
 │   ├── _app.js              # Next.js App component with global styles
-│   └── index.js             # Main profile page
+│   ├── index.js             # Main profile page
+│   └── chat.js              # Individual chat page
 ├── components/
 │   ├── StatusBar.js         # Mobile status bar component
 │   ├── ProfileHeader.js     # Profile image, name, and location
@@ -89,18 +93,22 @@ yarn start
 │   ├── Gallery.js           # Image gallery grid
 │   ├── TabBar.js            # Navigation tab bar
 │   ├── Modal.js             # Image modal viewer
-│   └── Notification.js      # Toast notification component
+│   ├── Notification.js      # Toast notification component
+│   ├── ChatHeader.js        # Chat page header with back navigation
+│   └── ChatMessages.js      # Chat messages display component
 ├── styles/
 │   └── globals.css          # Global styles and animations
 ├── public/
-│   └── images/              # Gallery and profile images
+│   └── images/              # Gallery, profile and chat images
 │       ├── profile-image.png
 │       ├── gallery-1.png
 │       ├── gallery-2.png
 │       ├── gallery-3.png
 │       ├── gallery-4.png
 │       ├── gallery-5.png
-│       └── gallery-6.png
+│       ├── gallery-6.png
+│       ├── chat-avatar-1.png
+│       └── chat-avatar-2.png
 ├── package.json             # Dependencies and scripts
 ├── next.config.js           # Next.js configuration
 └── README.md                # This file
@@ -177,10 +185,10 @@ yarn start
 - **Hover Effects** - Subtle scale animation
 
 ### Tab Navigation
-- **Home** - Scrolls to top
+- **Home** - Navigates to profile page
 - **Search** - Shows search notification
 - **Upload** - Shows camera notification
-- **Chat** - Shows messages notification
+- **Chat** - Navigates to chat page
 - **Profile** - Shows settings notification
 
 ## 🔧 Development
